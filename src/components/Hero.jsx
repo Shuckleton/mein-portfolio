@@ -9,7 +9,7 @@ const Hero = () => {
       {/* Responsive container */}
       <div className="flex flex-col-reverse lg:flex-row w-full h-full items-center justify-center text-center lg:text-left">
       {/* Left Section */}
-      <div className={`${styles.paddingX} w-full lg:w-1/2 mt-10 lg:mt-0 flex flex-col justify-center gap-5 z-10`}>
+      <div className={`${styles.paddingX} w-full lg:w-1/2 mt-0 lg:mt-0 flex flex-col justify-center gap-5 z-10`}>
           <div>
             <h1 className={`${styles.heroHeadText}`}>
               <span className="block sm:inline"> The Cyberizzler</span>
@@ -23,11 +23,15 @@ const Hero = () => {
             
                 <br />
                 <br />
+             
               </p>
                   <div className="mt-2">
-                    <button className="border border-pastelYellow text-pastelYellow bg-pastelYellow px-5 py-2 rounded text-black hover:bg-transparent hover:text-pastelYellow transition-colors duration-300">
-                      Subscribe
-                    </button>
+                  <button className="relative inline-block px-6 py-2 rounded-full font-semibold text-black overflow-hidden z-10 border-2 border-transparent group">
+                    <span className="absolute inset-0 bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 animate-gradient-x bg-[length:200%_200%] z-0 rounded-full transition-all duration-500 group-hover:blur-sm group-hover:scale-110"></span>
+                    <span className="relative z-10">Subscribe</span>
+                  </button>
+
+
                 </div>
             </div>
           </div>
