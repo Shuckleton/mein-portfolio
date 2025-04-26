@@ -12,7 +12,7 @@ const RetroPC = () => {
 
   useEffect(() => {
     const video = document.createElement('video');
-    video.src = '/monitor_video.mp4';
+    video.src = '/sample.mp4';
     video.crossOrigin = 'anonymous';
     video.loop = true;
     video.muted = true;
@@ -34,10 +34,11 @@ const RetroPC = () => {
     cloneScene.traverse((obj) => {
       if (obj.isMesh) {
         if (obj.name === 'MonitorScreen') {
-          const clonedMonitor = obj.clone();
-          clonedMonitor.material = obj.material.clone();
-          setMonitorMesh(clonedMonitor);
+          obj.material = videoMaterial;
+          obj.material.needsUpdate = true;
+          obj.userData.isMonitor = true; // Custom flag for identification
         }
+        
 
         if (obj.material?.name === 'Monitor_Screen') {
           const videoMaterial = new THREE.ShaderMaterial({
@@ -77,9 +78,6 @@ const RetroPC = () => {
     });
   }, [cloneScene]);
 
-  const handleMonitorClick = () => {
-    console.log('Clicked');
-  };
 
   return (
     <>
@@ -99,44 +97,38 @@ const RetroPC = () => {
       />
 
       <primitive object={cloneScene} scale={1.1} position={[0, 0, 0]} />
-
-      {monitorMesh && (
-        <mesh
-          geometry={monitorMesh.geometry}
-          material={monitorMesh.material}
-          position={monitorMesh.position}
-          rotation={monitorMesh.rotation}
-          scale={monitorMesh.scale}
-          onPointerDown={handleMonitorClick}
-        />
-      )}
     </>
   );
 };
-
-const CameraAnimator = () => {
+const CameraAnimator = ({ controlsRef }) => {
   const { camera } = useThree();
   const animating = useRef(true);
+
   useFrame(() => {
     if (!animating.current) return;
 
-    let done = true;
-
-    // Lerp for smooth transition in the X position
     camera.position.x = THREE.MathUtils.lerp(camera.position.x, 28, 0.01);
-    if (Math.abs(camera.position.x - 28) < 0.1) camera.position.x = 28; // Stop when close enough
-
-    // Lerp for smooth transition in the Z position
     camera.position.z = THREE.MathUtils.lerp(camera.position.z, 0, 0.01);
-    if (Math.abs(camera.position.z - 0) < 0.1) camera.position.z = 0; // Stop when close enough
 
-    if (camera.position.x === 28 && camera.position.z === 0) animating.current = false; // Stop animating when both are at the target
+    const xDone = Math.abs(camera.position.x - 28) < 0.1;
+    const zDone = Math.abs(camera.position.z - 0) < 0.1;
+
+    if (xDone && zDone) {
+      animating.current = false;
+      camera.position.set(28, camera.position.y, 0);
+
+      // ✅ Sync OrbitControls once
+      controlsRef.current?.target.set(0, 0, 0);
+      controlsRef.current?.update();
+    }
   });
 
   return null;
 };
 
 const RetroPCCanvas = () => {
+  const controlsRef = useRef();
+
   return (
     <Canvas
       frameloop="always"
@@ -150,17 +142,18 @@ const RetroPCCanvas = () => {
     >
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
+          ref={controlsRef}
           enableZoom={false}
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
-          target={[0, 0, 0]}
         />
-        <CameraAnimator />
+        <CameraAnimator controlsRef={controlsRef} />
         <RetroPC />
       </Suspense>
       <Preload all />
     </Canvas>
   );
 };
+
 
 export default RetroPCCanvas;

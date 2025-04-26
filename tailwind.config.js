@@ -17,7 +17,10 @@ module.exports = {
         card: "0px 35px 120px -15px #211e35",
       },
       screens: {
-        xs: "450px",
+        xs: '450px',
+        'ipad-pro': { 'min': '1024px', 'max': '1199px' }, // Specific range for iPad Pro
+        'nest-hub': { 'min': '600px', 'max': '1023px' }, // Smaller devices, adjust if needed
+        'nest-hub-max': { 'min': '1200px', 'max': '1366px' }, // Larger Nest Hub
       },
       backgroundImage: {
         "hero-pattern": "url('/src/assets/herobg.png')",
