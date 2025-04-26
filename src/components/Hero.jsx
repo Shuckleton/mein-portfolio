@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { styles } from '../styles';
 import { RetroPCCanvas } from './canvas';
 
@@ -12,7 +11,7 @@ const Hero = () => {
       <div className={`${styles.paddingX} w-full lg:w-1/2 mt-0 lg:mt-0 flex flex-col justify-center gap-5 z-10`}>
           <div>
             <h1 className={`${styles.heroHeadText}`}>
-              <span className="block sm:inline"> The Cyberizzler</span>
+              <span className="block sm:inline"> CRAMPBYTE</span>
             </h1>
               <p className={`${styles.heroSubText} mt-2 text-white/80`}>
                     I'm <span className="text-pastelYellow">Romnick Canonigo</span>, a tech enthusiast passionate about web development, graphics, and cybersecurity.
@@ -26,22 +25,21 @@ const Hero = () => {
              
               </p>
                   <div className="mt-2">
-                  <button className="relative inline-block px-6 py-2 rounded-full font-semibold text-black overflow-hidden z-10 border-2 border-transparent group">
-                    <span className="absolute inset-0 bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 animate-gradient-x bg-[length:200%_200%] z-0 rounded-full transition-all duration-500 group-hover:blur-sm group-hover:scale-110"></span>
+                  <button className="relative inline-block px-8 py-3 font-semibold text-black overflow-hidden z-10 border-2 border-transparent bg-yellow-400" style={{ borderRadius: '8px' }}>
                     <span className="relative z-10">Subscribe</span>
                   </button>
-
-
                 </div>
             </div>
           </div>
-          {/* Right Section with RetroPCCanvas */}
+  
           <div 
-            className="w-full lg:w-1/2 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[80vh] relative z-15"
-            style={{ pointerEvents: 'auto' }} // Ensure pointer events work properly on the canvas
-          >
-            <RetroPCCanvas />
-          </div>
+              className="w-full lg:w-1/2 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[80vh] nest-hub:h-[50vh] nest-hub-max:h-[60vh] ipad-pro:h-[35vh] relative z-15 mt-10"
+              style={{ pointerEvents: 'auto' }} // Ensure pointer events work properly on the canvas
+            >
+          <RetroPCCanvas />
+        </div>
+
+
       </div>
     </section>
   );
